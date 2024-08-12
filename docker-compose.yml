@@ -18,3 +18,10 @@ services:
       context: .
       dockerfile: OrderManagement/SampleMicroservice.OrderManagement.Api/Dockerfile
 
+
+  samplemicroservice.notificationservice.api:
+    image: ${DOCKER_REGISTRY-}samplemicroservicenotificationserviceapi
+    build:
+      context: .
+      dockerfile: NotificationService/SampleMicroservice.NotificationService.Api/Dockerfile
+

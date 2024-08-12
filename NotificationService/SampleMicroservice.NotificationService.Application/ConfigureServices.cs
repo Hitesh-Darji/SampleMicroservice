@@ -1,26 +1,22 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MassTransit;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using FluentValidation;
-using MassTransit;
 
-namespace SampleMicroservice.OrderManagement.Application
+namespace SampleMicroservice.NotificationService.Application
 {
     public static class ConfigureServices
     {
         public static void AddInjectionApplication(this IServiceCollection services)
         {
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
-            services.AddMassTransit(x =>
+            services.AddMassTransit(m =>
             {
-                x.UsingRabbitMq((ctx, cfg) =>
+                m.AddConsumers(Assembly.GetExecutingAssembly());
+                m.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host("rabbitmq", "/", c =>
                     {
@@ -30,7 +26,7 @@ namespace SampleMicroservice.OrderManagement.Application
                     cfg.ConfigureEndpoints(ctx);
                 });
             });
-        }
 
+        }
     }
 }

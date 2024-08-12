@@ -19,7 +19,9 @@ namespace SampleMicroservice.OrderManagement.Infrastructure.Repositories
         }
         public async Task<Order?> CreateAsync(Order order)
         {
-            throw new NotImplementedException();
+            _orderDbContext.Orders.Add(order);
+            await _orderDbContext.SaveChangesAsync();
+            return order;
         }
 
         public async Task<List<Order>> GetAllAsync()

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using SampleMicroservice.Messaging.Contracts;
 using SampleMicroservice.OrderManagement.Application.Dto;
+using SampleMicroservice.OrderManagement.Application.Features.Order.Commands;
 using SampleMicroservice.OrderManagement.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,6 +17,9 @@ namespace SampleMicroservice.OrderManagement.Application.Mappings
         public OrderMapper()
         {
             CreateMap<Order, OrderDto>().ReverseMap();
+            CreateMap<Order, CreateOrderCommand>().ReverseMap();
+            CreateMap<Order, OrderMessage>().ReverseMap();
+            CreateMap<OrderDto, OrderMessage>().ReverseMap();
         }
     }
 }

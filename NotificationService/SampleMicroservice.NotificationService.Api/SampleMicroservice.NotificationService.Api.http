@@ -1,0 +1,6 @@
+@SampleMicroservice.NotificationService.Api_HostAddress = http://localhost:5147
+
+GET {{SampleMicroservice.NotificationService.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

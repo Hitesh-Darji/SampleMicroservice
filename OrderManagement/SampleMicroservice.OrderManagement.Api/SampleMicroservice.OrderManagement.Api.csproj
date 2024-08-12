@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\SampleMicroservice.Messaging\SampleMicroservice.Messaging.csproj" />
     <ProjectReference Include="..\SampleMicroservice.OrderManagement.Application\SampleMicroservice.OrderManagement.Application.csproj" />
     <ProjectReference Include="..\SampleMicroservice.OrderManagement.Infrastructure\SampleMicroservice.OrderManagement.Infrastructure.csproj" />
   </ItemGroup>
