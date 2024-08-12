@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  pgdatabase:
+    image: postgres:alpine
+    restart: unless-stopped
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+  samplemicroservice.usermanagement.api:
+    image: ${DOCKER_REGISTRY-}samplemicroserviceusermanagementapi
+    build:
+      context: .
+      dockerfile: UserManagement/SampleMicroservice.UserManagement.Api/Dockerfile
+
+  samplemicroservice.ordermanagement.api:
+    image: ${DOCKER_REGISTRY-}samplemicroserviceordermanagementapi
+    build:
+      context: .
+      dockerfile: OrderManagement/SampleMicroservice.OrderManagement.Api/Dockerfile
+
