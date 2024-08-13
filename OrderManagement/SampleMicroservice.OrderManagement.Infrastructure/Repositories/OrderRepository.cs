@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SampleMicroservice.OrderManagement.Abstraction.Infrastructure;
 using SampleMicroservice.OrderManagement.Domain.Entities;
 using SampleMicroservice.OrderManagement.Infrastructure.Contexts;
@@ -13,9 +14,11 @@ namespace SampleMicroservice.OrderManagement.Infrastructure.Repositories
     public class OrderRepository : IOrderRepository
     {
         private readonly OrderDbContext _orderDbContext;
-        public OrderRepository(OrderDbContext orderDbContext)
+        private readonly ILogger<OrderRepository> _logger;
+        public OrderRepository(OrderDbContext orderDbContext, ILogger<OrderRepository> logger)
         {
-            _orderDbContext = orderDbContext;
+            _orderDbContext = orderDbContext ?? throw new ArgumentNullException(nameof(Order));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
         public async Task<Order?> CreateAsync(Order order)
         {

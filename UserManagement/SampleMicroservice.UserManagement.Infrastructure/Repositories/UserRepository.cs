@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SampleMicroservice.UserManagement.Abstraction.Infrastructure;
 using SampleMicroservice.UserManagement.Domain.Entities;
 using SampleMicroservice.UserManagement.Infrastructure.Contexts;
@@ -13,9 +14,11 @@ namespace SampleMicroservice.UserManagement.Infrastructure.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly UserDbContext _userDbContext;
-        public UserRepository(UserDbContext userDbContext)
+        private readonly ILogger<UserRepository> _logger;
+        public UserRepository(UserDbContext userDbContext, ILogger<UserRepository> logger)
         {
-            _userDbContext = userDbContext;
+            _userDbContext = userDbContext ?? throw new ArgumentNullException(nameof(userDbContext)); 
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
         public async Task<List<User>> GetAllAsync()
         {

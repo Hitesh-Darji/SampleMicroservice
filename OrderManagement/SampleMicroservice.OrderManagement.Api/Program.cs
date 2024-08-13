@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SampleMicroservice.OrderManagement.Api.Extensions.Middleware;
 using SampleMicroservice.OrderManagement.Application;
 using SampleMicroservice.OrderManagement.Infrastructure;
 using SampleMicroservice.OrderManagement.Infrastructure.Contexts;
@@ -32,6 +33,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseMiddleware<ExceptionMiddleware>();
 }
 
 app.UseHttpsRedirection();

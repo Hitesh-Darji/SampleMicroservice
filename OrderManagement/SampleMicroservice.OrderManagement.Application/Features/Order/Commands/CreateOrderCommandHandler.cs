@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using SampleMicroservice.OrderManagement.Abstraction.Infrastructure;
 using SampleMicroservice.OrderManagement.Application.Dto;
 
@@ -9,11 +10,13 @@ namespace SampleMicroservice.OrderManagement.Application.Features.Order.Commands
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger<CreateOrderCommandHandler> _logger;
 
-        public CreateOrderCommandHandler(IOrderRepository orderRepository, IMapper mapper)
+        public CreateOrderCommandHandler(IOrderRepository orderRepository, IMapper mapper, ILogger<CreateOrderCommandHandler> logger)
         {
             _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException( nameof(logger));
         }
 
         public async Task<OrderDto> Handle(CreateOrderCommand command, CancellationToken cancellationToken)

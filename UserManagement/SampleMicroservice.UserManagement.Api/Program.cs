@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SampleMicroservice.UserManagement.Api.Extensions.Middleware;
 using SampleMicroservice.UserManagement.Application;
 using SampleMicroservice.UserManagement.Infrastructure;
 using SampleMicroservice.UserManagement.Infrastructure.Contexts;
@@ -33,6 +34,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseMiddleware<ExceptionMiddleware>();
 }
 
 app.UseHttpsRedirection();

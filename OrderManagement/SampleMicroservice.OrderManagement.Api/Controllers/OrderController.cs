@@ -7,7 +7,6 @@ using SampleMicroservice.OrderManagement.Application.Dto;
 using SampleMicroservice.OrderManagement.Application.Features.Order.Commands;
 using SampleMicroservice.OrderManagement.Application.Features.Order.Queries.GetAllOrderQuery;
 using SampleMicroservice.OrderManagement.Application.Features.Order.Queries.GetByIdOrderQuery;
-using SampleMicroservice.OrderManagement.Domain.Entities;
 
 namespace SampleMicroservice.OrderManagement.Api.Controllers
 {
@@ -18,12 +17,14 @@ namespace SampleMicroservice.OrderManagement.Api.Controllers
         private readonly IMediator _mediator;
         private readonly IPublishEndpoint _publish;
         private readonly IMapper _mapper;
+        private readonly ILogger<OrderController> _logger;
 
-        public OrderController(IMediator mediator, IPublishEndpoint publish, IMapper mapper)
+        public OrderController(IMediator mediator, IPublishEndpoint publish, IMapper mapper, ILogger<OrderController> logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _publish = publish ?? throw new ArgumentNullException(nameof(publish));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentException(nameof(logger));
         }
 
         [HttpGet]
@@ -41,11 +42,12 @@ namespace SampleMicroservice.OrderManagement.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] OrderDto order)
+        public async Task<IActionResult> PostAsync([FromBody] CreateOrderCommand order)
         {
-            order = await _mediator.Send(new CreateOrderCommand(order.OrderNumber, order.Total));
-            await _publish.Publish<OrderMessage>(_mapper.Map<OrderMessage>(order));
+            var orderDto = await _mediator.Send(order);
+            await _publish.Publish<OrderMessage>(_mapper.Map<OrderMessage>(orderDto));
             return Ok(order);
         }
+
     }
 }
